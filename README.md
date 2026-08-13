@@ -15,10 +15,10 @@ original files. Delete `launch/patched/` and you're back to vanilla.
 ## What you need
 
 [Node.js](https://nodejs.org/), a copy of Elden Ring, and [me3](https://github.com/garyttierney/me3)
-to launch the game with your edits — it overlays a folder onto the game's data instead of
+to launch the game with your edits  it overlays a folder onto the game's data instead of
 modifying anything ([install guide](https://me3.help/en/latest/user-guide/installation/)).
 
-No game data lives in this repo, and you don't need Rust — `bin/xtask.exe` is prebuilt.
+No game data lives in this repo, and you don't need Rust  `bin/xtask.exe` is prebuilt.
 
 ## Getting started
 
@@ -26,7 +26,7 @@ No game data lives in this repo, and you don't need Rust — `bin/xtask.exe` is 
 npm install
 ```
 
-Copy `config.example.json` to `config.json` and point `gameDir` at your install — the `Game`
+Copy `config.example.json` to `config.json` and point `gameDir` at your install  the `Game`
 folder, the one with `regulation.bin` sitting in it:
 
 ```json
@@ -60,7 +60,7 @@ me3 launch --auto-detect -p launch/launch_er_patched.me3
 
 ## Building a new spell
 
-There's a **Craft** panel — hit **+ Add slot** to grab an empty spell slot, pick it, then drag
+There's a **Craft** panel  hit **+ Add slot** to grab an empty spell slot, pick it, then drag
 rows out of any spell onto the canvas and wire them together.
 
 `Ctrl+Z` steps the whole graph back. Crafts save as you go, so you can close the tab and find
@@ -78,7 +78,7 @@ sfx/sfxbnd_commoneffects.ffxbnd.dcx          effects
 sfx/sfxbnd_commoneffects_dlc02.ffxbnd.dcx    DLC effects
 ```
 
-> **Unpack only — don't press Patch.** Patch rewrites `eldenring.exe` to load loose files,
+> **Unpack only  don't press Patch.** Patch rewrites `eldenring.exe` to load loose files,
 > which you don't need because me3 does the loading, and a modified exe locks you out of
 > online play.
 
@@ -109,7 +109,7 @@ beyond that, the editor hands you the file path and a link to
   work and not done yet.
 
 - **Nothing validates your values.** The game will load a regulation describing an absurd spell
-  exactly as readily as a stable one. That's on you — if you loop a HitBulletID to itself, or
+  exactly as readily as a stable one. That's on you  if you loop a HitBulletID to itself, or
   to a parent bullet, there is nothing stopping you...
 
   ![Great Gravity Balls of Fire](public/Stupid_endlessBallsofPain.png)
@@ -134,21 +134,21 @@ src/lib/         domain logic: pure, knows nothing about React
 src/hooks/       state and coordination, one hook per job
 src/components/  rendering: Editor/ chrome, Spell/ selection, Craft/ assembly
 plugins/         the dev-server bridge that runs bin/xtask.exe
-bin/xtask.exe    the engine — the only thing that opens regulation.bin
+bin/xtask.exe    the only thing that opens regulation.bin
 launch/patched/  your working copy; me3 overlays this onto the game
 ```
 
-`src/spell-document.ts` is generated from the engine's Rust types — don't edit it by hand. The
+`src/spell-document.ts` is generated from the engine's Rust types, don't edit it by hand. The
 engine itself lives at [SoulsSpellCraft-engine](https://github.com/Gingerlief/SoulsSpellCraft-engine).
 
 ## Thanks
 
-- EvenTorset — [FXR Playground](https://fxr-playground.pages.dev/) and
+- EvenTorset  [FXR Playground](https://fxr-playground.pages.dev/) and
   [cccode/fxr](https://github.com/EvenTorset/fxr); its nodal editing system was the
   inspiration for the spell crafting design
-- InfernoPlus et al. — [JortPob](https://github.com/infernoplus/JortPob), which inspired the
+- InfernoPlus et al.  [JortPob](https://github.com/infernoplus/JortPob), which inspired the
   idea of cursed spell crafting
-- Vawser et al. — [Smithbox](https://github.com/vawser/Smithbox), god tier tool
-- Rusty — [The Definitive Guide To Elden Ring Bullet Editing](https://www.youtube.com/watch?v=rIDQSJ39JUM),
+- Vawser et al.  [Smithbox](https://github.com/vawser/Smithbox), god tier tool
+- Rusty  [The Definitive Guide To Elden Ring Bullet Editing](https://www.youtube.com/watch?v=rIDQSJ39JUM),
   masterwork sassy bullet editing video tutorial
 - The Souls modding community overall, and its endless resources
