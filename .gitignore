@@ -1,0 +1,5 @@
+data/reference/generated
+launch/patched
+node_modules
+package-lock.json
+config.json

@@ -1,0 +1,34 @@
+# Launch Elden Ring with the regulation this editor wrote.
+#
+#   me3 launch --auto-detect -p launch/launch_er_patched.me3
+#
+# ME3 overlays the `patched/` directory beside this file onto the game's data root at load
+# time. The game's own files are never modified, and neither is the regulation the editor
+# read from — this is a layer on top, and deleting `patched/` puts everything back.
+#
+# `patched/` is what `bin/xtask.exe` writes into:
+#
+#   patched/regulation.bin                     every applied spell edit and craft
+#   patched/msg/engus/item_dlc02.msgbnd.dcx    a crafted spell's name and description
+#   patched/sfx/                               unpacked effect binders, if you edit visuals
+#
+# Only `item_dlc02.msgbnd.dcx` is ever written of the three item binders. It is a strict
+# superset of the base and `_dlc01` ones, confirmed in game.
+#
+# Nothing in `patched/` is committed. It is game data, and this repo carries none — see the
+# .gitignore, which refuses it by name.
+#
+# Top-level arrays rather than [[table]] headers, matching the profiles this came from.
+# Mixing the two forms silently reparents a trailing key into the preceding table.
+
+profileVersion = "v1"
+
+natives = []
+
+packages = [
+  { id = "patched", source = 'patched\' },
+]
+
+supports = [
+  { game = "elden-ring" },
+]

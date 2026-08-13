@@ -1,0 +1,35 @@
+/* Reset only. All theming lives in App.css. */
+
+/*
+ * Do NOT add `svg` to the `img` rule below, or any other bare `svg` sizing rule.
+ *
+ * React Flow draws every edge into a **zero-width** `<svg class="react-flow__edges">`
+ * that relies on `overflow: visible` to paint outside its own box. A `max-width: 100%`
+ * on that element resolves to `0` and silently clips the entire edge layer: the paths
+ * stay in the DOM with correct geometry, correct stroke and non-zero bounding rects, and
+ * nothing is drawn. `tsc`, `vitest` and an element-count assertion all pass.
+ *
+ * `npm run smoke` catches it now (it hides the edge layer and asserts the pixels change),
+ * but the cheaper fix is not to reintroduce it.
+ */
+* {
+  margin: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
