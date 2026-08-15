@@ -1,28 +1,12 @@
 
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+// Similar to engine.ts this acts as a facade of our config.json and the engine. This is so the XTASK binary actually knows where to look and resolve locations.
 
-/**
- * Everything `config.json` may set.
- *
- * Three roots, and every other path the engine needs falls out of them — see
- * `souls-format::locate`, which owns the derivations so this file and the engine can't
- * disagree about where a patched msgbnd lives.
- */
 export type ConfigFile = {
-  /** The Elden Ring `Game` folder. Only ever read; `xtask init` copies out of it. */
   gameDir?: string | null;
-  /** The working copy ME3 overlays. Everything is read from and written to here. */
   patchDir?: string | null;
-  /** Where `xtask spell export` writes and this bridge reads. */
   exportDir?: string | null;
-  /**
-   * A source checkout of the engine, to run `cargo run -p xtask` instead of `bin/xtask.exe`.
-   *
-   * Opt-in only, and only useful if you are changing the engine. Setting it requires a Rust
-   * toolchain; leaving it unset — the normal case — uses the shipped binary and needs nothing
-   * installed beyond Node.
-   */
   engineDir?: string;
 };
 
@@ -53,11 +37,6 @@ export function resolveConfig(
 ): Config {
   const resolve = (p: string) => (path.isAbsolute(p) ? p : path.resolve(root, p));
 
-  /**
-   * Validates a path that must already exist. Only inputs get this — `patchDir` and
-   * `exportDir` are *outputs*, created by `xtask init` and `xtask spell export`, so
-   * demanding they exist up front is what made a fresh clone fail on first run.
-   */
   const mustExist = (value: string | undefined | null, field: string): string | null => {
     if (value === undefined || value === null || value === '') return null;
     const full = resolve(value);
@@ -70,10 +49,6 @@ export function resolveConfig(
     return full;
   };
 
-  // `bin/xtask.exe` is the default, always. Building from source is opt-in via engineDir,
-  // because the alternative — probing for a sibling checkout — silently drops a user with no
-  // Rust toolchain onto `cargo run`, which then fails with a spawn error that says nothing
-  // about the real problem.
   const engineDir = file.engineDir === undefined ? null : resolve(file.engineDir);
   const haveEngine = engineDir !== null;
   if (engineDir !== null && !exists(engineDir)) {
@@ -121,8 +96,7 @@ export function configEnv(config: Config, base = process.env): NodeJS.ProcessEnv
   const set = (name: string, value: string | null) => {
     if (value !== null) env[name] = value;
   };
-  // These names are a contract with souls-format::locate. Renaming one side alone silently
-  // reverts every setting to the engine's own defaults, with nothing going red.
+
   set('SSC_GAME_DIR', config.gameDir);
   set('SSC_PATCH_DIR', config.patchDir);
   set('SSC_EXPORT_DIR', config.exportDir);

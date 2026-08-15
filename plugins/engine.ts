@@ -7,6 +7,12 @@ import path from 'node:path';
 import type { Connect, Plugin } from 'vite';
 import { configEnv, describeConfig, loadConfig, type Config } from './config.js';
 
+
+
+
+// This acts as a facade to the XTASK, or the SoulsSpellCraft-Engine. It is necessary because the engine actively applies the edits to the modded copies of the game. 
+// Most of this is just hardcoded to XTASK commmands, and external tools. 
+
 type Res = Parameters<Connect.NextHandleFunction>[1];
 
 function json(res: Res, status: number, body: unknown) {
@@ -27,7 +33,6 @@ type Run = { code: number; stdout: string; stderr: string; output: string };
 function runXtask(config: Config, args: string[]): Promise<Run> {
   return new Promise((resolve) => {
     const child = spawn(config.xtask.command, [...config.xtask.args, ...args], {
-      // `cargo run` has to start inside the engine checkout; the shipped exe does not care.
       cwd: config.engineDir ?? process.cwd(),
       shell: process.platform === 'win32',
       env: configEnv(config),

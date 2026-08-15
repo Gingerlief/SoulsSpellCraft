@@ -18,7 +18,15 @@ original files. Delete `launch/patched/` and you're back to vanilla.
 to launch the game with your edits  it overlays a folder onto the game's data instead of
 modifying anything ([install guide](https://me3.help/en/latest/user-guide/installation/)).
 
-No game data lives in this repo, and you don't need Rust  `bin/xtask.exe` is prebuilt.
+Spell names and visuals live inside the game's packed
+archives, so you need [UXM Selective Unpack](https://github.com/Nordgaren/UXM-Selective-Unpack)
+once to pull these three out into your install:
+
+```
+msg/engus/item_dlc02.msgbnd.dcx              names and descriptions
+sfx/sfxbnd_commoneffects.ffxbnd.dcx          effects
+sfx/sfxbnd_commoneffects_dlc02.ffxbnd.dcx    DLC effects
+```
 
 ## Getting started
 
@@ -44,6 +52,7 @@ Then:
 
 ```bash
 bin/xtask.exe init                # copy regulation.bin and friends out of your install
+bin/xtask.exe sfx unpack   # .ffxbnd.dcx -> a folder of loose .fxr files
 bin/xtask.exe spell export --all  # 317 spells, a couple of seconds
 npm run dev
 ```
@@ -65,31 +74,6 @@ rows out of any spell onto the canvas and wire them together.
 
 `Ctrl+Z` steps the whole graph back. Crafts save as you go, so you can close the tab and find
 it waiting under **Unfinished**.
-
-## Real names and effects
-
-The above runs on `regulation.bin` alone. Spell names and visuals live inside the game's packed
-archives, so you need [UXM Selective Unpack](https://github.com/Nordgaren/UXM-Selective-Unpack)
-once to pull these three out into your install:
-
-```
-msg/engus/item_dlc02.msgbnd.dcx              names and descriptions
-sfx/sfxbnd_commoneffects.ffxbnd.dcx          effects
-sfx/sfxbnd_commoneffects_dlc02.ffxbnd.dcx    DLC effects
-```
-
-> **Unpack only  don't press Patch.** Patch rewrites `eldenring.exe` to load loose files,
-> which you don't need because me3 does the loading, and a modified exe locks you out of
-> online play.
-
-Then pick them up and explode the effect binders:
-
-```bash
-bin/xtask.exe init         # grabs the newly unpacked files
-bin/xtask.exe sfx unpack   # .ffxbnd.dcx -> a folder of loose .fxr files
-```
-
-Packing back up happens for you when you save an effect edit.
 
 ## Editing the visuals
 
@@ -151,4 +135,4 @@ engine itself lives at [SoulsSpellCraft-engine](https://github.com/Gingerlief/So
 - Vawser et al.  [Smithbox](https://github.com/vawser/Smithbox), god tier tool
 - Rusty  [The Definitive Guide To Elden Ring Bullet Editing](https://www.youtube.com/watch?v=rIDQSJ39JUM),
   masterwork sassy bullet editing video tutorial
-- The Souls modding community overall, and its endless resources
+- The Souls modding community documentation (websites, datasheets, and discord)
